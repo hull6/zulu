@@ -30,7 +30,7 @@ export default function Bookshelf() {
     <div class={styles.page}>
       <header class={styles.hero}>
         <span class={styles.welcome}>A Collection</span>
-        <h1 class={styles.title}>The LiquidZulu Canon</h1>
+        <h1 class={styles.title}>The Anarcho-Objectivist Canon</h1>
       </header>
 
       <main class={styles.content}>
