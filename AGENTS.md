@@ -170,9 +170,15 @@ interface Shelf {
 
 ## Architecture Notes
 
-- Books have two visual modes: **spine** (collapsed, vertical title) and
-  **cover** (expanded, showing title + author + optional community badge).
-- Shelves display spines in a horizontally-scrolling row.
+- Books have two visual modes: **spine** (collapsed on shelf) and **cover**
+  (expanded in overlay grid).
+- On shelves, spines use a **hover transition**: the container widens from
+  spine width (36px) to cover width (130px) via CSS `transition: width`,
+  while spine text fades out and cover content (title + author + badge)
+  fades in. Both layers are always rendered; visibility is toggled via opacity.
+- In the overlay (expanded mode), covers render statically with no hover
+  transition — a separate `coverStatic` layout is used.
+- Shelves display spines in a horizontally-scrolling row with arrow buttons.
 - Clicking a category plaque opens a fullscreen **overlay** showing all covers
   in a wrapping grid. Escape key or backdrop click dismisses it.
 - Scroll is locked on `document.body` while the overlay is open.

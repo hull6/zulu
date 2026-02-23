@@ -18,9 +18,20 @@ export default function Book(props: BookProps) {
       title={`${props.book.title} — ${props.book.author}`}
     >
       <Show when={!props.expanded}>
-        <div class={styles.spine} style={{ background: props.book.spineColor }}>
+        <div class={styles.hoverContainer} style={{ background: props.book.spineColor }}>
           <div class={styles.spineEdge} />
-          <span class={styles.spineTitle}>{props.book.title}</span>
+          <div class={styles.spineContent}>
+            <span class={styles.spineTitle}>{props.book.title}</span>
+          </div>
+          <div class={styles.coverContent}>
+            <div class={styles.accentBarTop} />
+            <div class={styles.accentBarBottom} />
+            <Show when={props.book.community}>
+              <span class={styles.communityBadge}>Community</span>
+            </Show>
+            <span class={styles.title}>{props.book.title}</span>
+            <span class={styles.coverAuthor}>{props.book.author}</span>
+          </div>
         </div>
       </Show>
       <Show when={props.expanded}>
