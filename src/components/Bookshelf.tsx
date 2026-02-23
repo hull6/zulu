@@ -36,6 +36,7 @@ function ShelfSection(props: { shelf: Shelf; onCategoryClick: (shelf: Shelf) => 
         onClick={() => props.onCategoryClick(props.shelf)}
       >
         <span class={styles.sectionTitle}>{props.shelf.category}</span>
+        <span class={styles.expandHint}>click to expand</span>
       </div>
 
       <div class={styles.shelfWrapper}>
