@@ -5,37 +5,38 @@ Guidelines for AI coding agents operating in this repository.
 ## Project Overview
 
 A digital bookshelf built with **SolidJS** (NOT React) and **TypeScript**, bundled
-with **Vite**. Static single-page app with no routing, no API calls, no state
-management beyond SolidJS primitives. Deployed on Vercel.
+with **Vite**. Static single-page app — no routing, no API calls, no state
+management beyond SolidJS primitives (`createSignal`, `onMount`, `onCleanup`).
+Deployed on Vercel.
 
 ## Build / Dev Commands
 
-| Command           | Description                        |
-| ----------------- | ---------------------------------- |
-| `npm run dev`     | Start Vite dev server              |
-| `npm run build`   | Production build to `dist/`        |
-| `npm run preview` | Preview production build locally   |
-| `npx tsc --noEmit`| TypeScript type-check (no output)  |
+| Command                        | Description                      |
+| ------------------------------ | -------------------------------- |
+| `npm run dev`                  | Start Vite dev server            |
+| `npm run build`                | Production build to `dist/`      |
+| `npm run preview`              | Preview production build locally |
+| `npx tsc --noEmit`             | TypeScript type-check (no output)|
+| `npm run build && npx tsc --noEmit` | **Always run after changes** |
 
-There is no linter, formatter, or test runner configured. Always run
-`npm run build && npx tsc --noEmit` after making changes to verify correctness.
+There is no linter, formatter, or test runner configured.
 
 ## Project Structure
 
 ```
 toot/
   index.html                 # Vite entry HTML
-  package.json
-  tsconfig.json
-  vite.config.ts
-  vercel.json                # Vercel SPA rewrite config
+  package.json               # type: "module", deps: solid-js
+  tsconfig.json              # strict, jsx: preserve, jsxImportSource: solid-js
+  vite.config.ts             # vite-plugin-solid only
+  vercel.json                # SPA rewrite config
   src/
     index.tsx                # Entry point — renders <App/> into #root
     App.tsx                  # Root component
     components/
-      Bookshelf.tsx          # Main page layout (hero, category sections, footer)
+      Bookshelf.tsx          # Main layout: hero, shelves, overlay, footer
       Bookshelf.module.css
-      Book.tsx               # Individual book cover component
+      Book.tsx               # Book component (spine + cover modes)
       Book.module.css
     data/
       books.ts               # Static data: shelves[], Book & Shelf interfaces
@@ -48,10 +49,14 @@ toot/
 ## SolidJS — Critical Differences from React
 
 - Use `class`, NOT `className`
+- Use `classList={{ [styles.active]: condition }}` for conditional classes
 - Do NOT destructure props — access via `props.x` to preserve reactivity
 - Use `<For each={array}>` for list rendering, NOT `.map()`
+- Use `<Show when={condition}>` for conditional rendering
 - Inline styles use object syntax: `style={{ background: value }}`
 - Mount with `render(() => <App />, root)` from `solid-js/web`
+- Lifecycle: `onMount` / `onCleanup` (not useEffect)
+- State: `createSignal` (not useState) — returns `[getter, setter]`
 - JSX import source is `solid-js` (configured in tsconfig)
 
 ## Code Style
@@ -71,7 +76,7 @@ toot/
 5. CSS module imports (always last)
 
 ```ts
-import { For } from "solid-js";
+import { createSignal, For, Show } from "solid-js";
 import type { Book as BookType } from "../data/books";
 import { shelves } from "../data/books";
 import Book from "./Book";
@@ -87,16 +92,16 @@ import styles from "./Bookshelf.module.css";
 - Use explicit type annotations on exported constants: `export const x: T[] = []`
 
 ### Naming
-| Thing              | Convention        | Example                    |
-| ------------------ | ----------------- | -------------------------- |
-| Components         | PascalCase `.tsx`  | `Bookshelf.tsx`            |
-| CSS Modules        | PascalCase `.module.css` | `Bookshelf.module.css` |
-| Data files         | camelCase `.ts`    | `books.ts`                 |
-| Type declarations  | camelCase `.d.ts`  | `modules.d.ts`             |
-| Constants          | SCREAMING_SNAKE    | `BOOKS_PER_ROW`            |
-| Functions          | camelCase          | `getCoverColor`            |
-| Interfaces         | PascalCase         | `BookProps`, `Shelf`       |
-| CSS classes        | camelCase          | `.sectionHeader`           |
+| Thing              | Convention               | Example                    |
+| ------------------ | ------------------------ | -------------------------- |
+| Components         | PascalCase `.tsx`        | `Bookshelf.tsx`            |
+| CSS Modules        | PascalCase `.module.css` | `Bookshelf.module.css`     |
+| Data files         | camelCase `.ts`          | `books.ts`                 |
+| Type declarations  | camelCase `.d.ts`        | `modules.d.ts`             |
+| Constants          | SCREAMING_SNAKE          | `BOOKS_PER_ROW`            |
+| Functions          | camelCase                | `getCoverColor`            |
+| Interfaces         | PascalCase               | `BookProps`, `Shelf`       |
+| CSS classes        | camelCase                | `.sectionHeader`           |
 
 ### Component Pattern
 
@@ -130,27 +135,29 @@ export default function Component(props: ComponentProps) {
 
 - **CSS Modules** co-located with components (same name, `.module.css`)
 - **Global CSS** in `src/styles/global.css` — reset, custom properties, base styles
-- **Custom properties** on `:root` for all design tokens (colors, fonts, shelf colors)
+- **Custom properties** on `:root` for all design tokens
 - `composes` keyword for style composition within modules
 - camelCase class names in modules
 - Single responsive breakpoint: `@media (max-width: 600px)`
 - No preprocessors, no CSS-in-JS, no Tailwind
-- No shadows, no gradients, no border-radius — intentionally minimal aesthetic
 
-### Design Tokens (key custom properties)
-- `--bg-primary: #faf9f6` — warm off-white background
-- `--velvet: #8b2232` — crimson accent color
-- `--font-display: "Playfair Display"` — headings (serif)
-- `--font-body: "Inter"` — body text (sans-serif)
-- `--shelf-wood: #d4c5a9` — bookshelf board color
+### Design Tokens (custom properties on `:root`)
+- `--bg-primary: #faf9f6` / `--bg-secondary: #f2f0eb` / `--bg-card: #fff`
+- `--text-primary: #1a1a1a` / `--text-secondary: #555` / `--text-muted: #888`
+- `--velvet: #8b2232` / `--velvet-dark: #5c1622` / `--velvet-light: #a83245`
+- `--accent: #8b2232` / `--border: #999`
+- `--font-display: "Playfair Display"` (headings, serif)
+- `--font-body: "Inter"` (body, sans-serif)
+- `--shelf-wood: #d4c5a9` / `--shelf-wood-dark: #b8a88a` / `--shelf-shadow: #c4b494`
 
 ## Data
 
 Book data lives in `src/data/books.ts` as a `shelves: Shelf[]` array.
 Each shelf has a `category` string and a `books` array.
 
-Books only need `title`, `author`, and `url` — cover colors are auto-assigned
-via a deterministic hash of the title. Optional `spineColor` overrides.
+Cover colors are auto-assigned via a deterministic hash of the title.
+Optional `spineColor` overrides. The `community` flag marks community
+contributions and renders a green badge on the cover.
 
 ```ts
 interface Book {
@@ -158,6 +165,7 @@ interface Book {
   author: string;
   url: string;
   spineColor?: string;
+  community?: boolean;
 }
 
 interface Shelf {
@@ -165,6 +173,15 @@ interface Shelf {
   books: Book[];
 }
 ```
+
+## Architecture Notes
+
+- Books have two visual modes: **spine** (collapsed, vertical title) and
+  **cover** (expanded, showing title + author + optional community badge).
+- Shelves display spines in a horizontally-scrolling row.
+- Clicking a category plaque opens a fullscreen **overlay** showing all covers
+  in a wrapping grid. Escape key or backdrop click dismisses it.
+- Scroll is locked on `document.body` while the overlay is open.
 
 ## Deployment
 

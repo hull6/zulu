@@ -1,55 +1,81 @@
-import { For } from "solid-js";
-import type { Book as BookType } from "../data/books";
+import { createSignal, For, onCleanup, onMount, Show } from "solid-js";
+import type { Shelf } from "../data/books";
 import { shelves } from "../data/books";
 import Book from "./Book";
 import styles from "./Bookshelf.module.css";
 
-const BOOKS_PER_ROW = 6;
-
-function chunkArray<T>(arr: T[], size: number): T[][] {
-  const chunks: T[][] = [];
-  for (let i = 0; i < arr.length; i += size) {
-    chunks.push(arr.slice(i, i + size));
-  }
-  return chunks;
-}
-
 export default function Bookshelf() {
+  const [activeShelf, setActiveShelf] = createSignal<Shelf | null>(null);
+
+  const handleCategoryClick = (shelf: Shelf) => {
+    setActiveShelf(shelf);
+    document.body.style.overflow = "hidden";
+  };
+
+  const handleOverlayClose = () => {
+    setActiveShelf(null);
+    document.body.style.overflow = "";
+  };
+
+  const handleKeyDown = (e: KeyboardEvent) => {
+    if (e.key === "Escape" && activeShelf()) {
+      handleOverlayClose();
+    }
+  };
+
+  onMount(() => document.addEventListener("keydown", handleKeyDown));
+  onCleanup(() => document.removeEventListener("keydown", handleKeyDown));
+
   return (
     <div class={styles.page}>
       <header class={styles.hero}>
         <span class={styles.welcome}>A Collection</span>
         <h1 class={styles.title}>The LiquidZulu Canon</h1>
-
       </header>
 
       <main class={styles.content}>
         <For each={shelves}>
-          {(shelf) => {
-            const rows = chunkArray(shelf.books, BOOKS_PER_ROW);
-            return (
-              <section class={styles.category}>
-                <div class={styles.sectionHeader}>
-                  <span class={styles.sectionTitle}>{shelf.category}</span>
-                </div>
+          {(shelf) => (
+            <section class={styles.category}>
+              <div
+                class={styles.sectionHeader}
+                onClick={() => handleCategoryClick(shelf)}
+              >
+                <span class={styles.sectionTitle}>{shelf.category}</span>
+              </div>
 
-                <For each={rows}>
-                  {(row) => (
-                    <>
-                      <div class={styles.shelf}>
-                        <For each={row}>
-                          {(book: BookType) => <Book book={book} />}
-                        </For>
-                      </div>
-                      <div class={styles.shelfBoard} />
-                    </>
-                  )}
-                </For>
-              </section>
-            );
-          }}
+              <div class={styles.shelfRow}>
+                <div class={styles.shelf}>
+                  <For each={shelf.books}>
+                    {(book) => <Book book={book} expanded={false} />}
+                  </For>
+                </div>
+                <div class={styles.shelfBoard} />
+              </div>
+            </section>
+          )}
         </For>
       </main>
+
+      <Show when={activeShelf()}>
+        {(shelf) => (
+          <div class={styles.overlay} onClick={handleOverlayClose}>
+            <div class={styles.overlayContent} onClick={(e) => e.stopPropagation()}>
+              <div class={styles.overlayHeader}>
+                <span class={styles.overlayTitle}>{shelf().category}</span>
+                <button class={styles.overlayClose} onClick={handleOverlayClose}>
+                  &times;
+                </button>
+              </div>
+              <div class={styles.overlayGrid}>
+                <For each={shelf().books}>
+                  {(book) => <Book book={book} expanded={true} />}
+                </For>
+              </div>
+            </div>
+          </div>
+        )}
+      </Show>
 
       <footer class={styles.footer}>
         "The State is a gang of thieves writ large — the most immoral, grasping, and unscrupulous individuals in any society." — Murray N. Rothbard

@@ -2,17 +2,58 @@
   display: block;
   text-decoration: none;
   cursor: pointer;
+  flex-shrink: 0;
 }
 
 .book:hover {
   text-decoration: none;
 }
 
-.cover {
+.spine {
+  position: relative;
+  width: 36px;
+  height: 190px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid rgba(0, 0, 0, 0.2);
+  border-bottom: none;
+  overflow: hidden;
+}
+
+.book:hover .spine {
+  filter: brightness(1.15);
+  border-color: rgba(255, 255, 255, 0.2);
+}
+
+.spineEdge {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 3px;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.2);
+}
+
+.spineTitle {
+  font-family: var(--font-display);
+  font-size: 0.6rem;
+  font-weight: 700;
+  color: rgba(255, 255, 255, 0.9);
+  writing-mode: vertical-rl;
+  text-orientation: mixed;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-height: 170px;
+  line-height: 1;
+  letter-spacing: 0.02em;
+}
+
+.coverStatic {
   position: relative;
   width: 130px;
   height: 190px;
-  flex-shrink: 0;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -23,7 +64,7 @@
   overflow: hidden;
 }
 
-.book:hover .cover {
+.book:hover .coverStatic {
   border-color: rgba(255, 255, 255, 0.3);
   filter: brightness(1.1);
 }
@@ -84,7 +125,7 @@
   -webkit-box-orient: vertical;
 }
 
-.plaque {
+.plaqueExpanded {
   width: 130px;
   height: 36px;
   padding: 6px 4px;
@@ -93,7 +134,7 @@
   overflow: hidden;
 }
 
-.author {
+.authorExpanded {
   font-family: var(--font-body);
   font-size: 0.55rem;
   font-weight: 400;
@@ -128,13 +169,23 @@
 }
 
 @media (max-width: 600px) {
-  .cover {
+  .spine {
+    width: 30px;
+    height: 160px;
+  }
+
+  .spineTitle {
+    font-size: 0.5rem;
+    max-height: 140px;
+  }
+
+  .coverStatic {
     width: 110px;
     height: 160px;
     padding: 14px 10px;
   }
 
-  .plaque {
+  .plaqueExpanded {
     width: 110px;
   }
 
@@ -146,7 +197,7 @@
     font-size: 0.5rem;
   }
 
-  .author {
+  .authorExpanded {
     font-size: 0.48rem;
   }
 }
