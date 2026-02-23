@@ -204,15 +204,25 @@
   }
 
   .overlay {
-    padding: 1rem;
+    padding: 0;
   }
 
   .overlayContent {
-    padding: 1.5rem;
+    padding: 1rem;
+    min-height: 100vh;
   }
 
   .overlayGrid {
     gap: 8px;
     justify-content: center;
+  }
+
+  .overlayTitle {
+    font-size: 1.1rem;
+  }
+
+  .overlayHeader {
+    margin-bottom: 1rem;
+    padding-bottom: 0.75rem;
   }
 }
