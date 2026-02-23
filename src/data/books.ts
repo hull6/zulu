@@ -126,7 +126,7 @@ export const shelves: Shelf[] = [
       {
         title: "Capitalism and Freedom",
         author: "Milton Friedman",
-        url: "https://en.wikipedia.org/wiki/Capitalism_and_Freedom",
+        url: "https://www.amazon.com/dp/0226264211",
       },
       {
         title: "The Production of Security",
@@ -147,57 +147,57 @@ export const shelves: Shelf[] = [
       {
         title: "Atlas Shrugged",
         author: "Ayn Rand",
-        url: "https://en.wikipedia.org/wiki/Atlas_Shrugged",
+        url: "https://www.amazon.com/dp/0451191145",
       },
       {
         title: "The Fountainhead",
         author: "Ayn Rand",
-        url: "https://en.wikipedia.org/wiki/The_Fountainhead",
+        url: "https://www.amazon.com/dp/0451191153",
       },
       {
         title: "The Virtue of Selfishness",
         author: "Ayn Rand",
-        url: "https://en.wikipedia.org/wiki/The_Virtue_of_Selfishness",
+        url: "https://www.amazon.com/dp/0451163931",
       },
       {
         title: "Capitalism: The Unknown Ideal",
         author: "Ayn Rand",
-        url: "https://en.wikipedia.org/wiki/Capitalism:_The_Unknown_Ideal",
+        url: "https://www.amazon.com/dp/0451147952",
       },
       {
         title: "Introduction to Objectivist Epistemology",
         author: "Ayn Rand",
-        url: "https://en.wikipedia.org/wiki/Introduction_to_Objectivist_Epistemology",
+        url: "https://www.amazon.com/dp/0452010306",
       },
       {
         title: "Philosophy: Who Needs It",
         author: "Ayn Rand",
-        url: "https://en.wikipedia.org/wiki/Philosophy:_Who_Needs_It",
+        url: "https://www.amazon.com/dp/0451138937",
       },
       {
         title: "The Romantic Manifesto",
         author: "Ayn Rand",
-        url: "https://en.wikipedia.org/wiki/The_Romantic_Manifesto",
+        url: "https://www.amazon.com/dp/0451149165",
       },
       {
         title: "Objectivism: The Philosophy of Ayn Rand",
         author: "Leonard Peikoff",
-        url: "https://en.wikipedia.org/wiki/Objectivism:_The_Philosophy_of_Ayn_Rand",
+        url: "https://www.amazon.com/dp/0452011019",
       },
       {
         title: "The Ominous Parallels",
         author: "Leonard Peikoff",
-        url: "https://en.wikipedia.org/wiki/The_Ominous_Parallels",
+        url: "https://www.amazon.com/dp/0452011175",
       },
       {
         title: "We the Living",
         author: "Ayn Rand",
-        url: "https://en.wikipedia.org/wiki/We_the_Living",
+        url: "https://www.amazon.com/dp/0451187849",
       },
       {
         title: "Anthem",
         author: "Ayn Rand",
-        url: "https://en.wikipedia.org/wiki/Anthem_(novella)",
+        url: "https://www.amazon.com/dp/0452281253",
       },
     ]),
   },
@@ -207,17 +207,17 @@ export const shelves: Shelf[] = [
       {
         title: "The Ecological Approach to Visual Perception",
         author: "James J. Gibson",
-        url: "https://en.wikipedia.org/wiki/The_Ecological_Approach_to_Visual_Perception",
+        url: "https://www.routledge.com/The-Ecological-Approach-to-Visual-Perception/Gibson/p/book/9781848725782",
       },
       {
         title: "The Senses Considered as Perceptual Systems",
         author: "James J. Gibson",
-        url: "https://en.wikipedia.org/wiki/The_Senses_Considered_as_Perceptual_Systems",
+        url: "https://www.amazon.com/dp/0313239614",
       },
       {
         title: "Ecological Psychology in Context",
         author: "Harry Heft",
-        url: "https://en.wikipedia.org/wiki/Ecological_psychology",
+        url: "https://www.amazon.com/Ecological-Psychology-Context-Gibson-William/dp/0805856927",
       },
       {
         title: "Radical Embodied Cognitive Science",
@@ -227,22 +227,12 @@ export const shelves: Shelf[] = [
       {
         title: "An Ecological Approach to Perceptual Learning and Development",
         author: "Eleanor J. Gibson & Anne D. Pick",
-        url: "https://en.wikipedia.org/wiki/Eleanor_J._Gibson",
-      },
-      {
-        title: "Affordances and the Body",
-        author: "Christopher Fraleigh",
-        url: "https://en.wikipedia.org/wiki/Affordance",
-      },
-      {
-        title: "Information and the Internal Environment",
-        author: "Robert E. Shaw & Michael T. Turvey",
-        url: "https://en.wikipedia.org/wiki/Michael_Turvey",
+        url: "https://www.amazon.com/dp/0195165497",
       },
       {
         title: "Perceptual Control Theory",
         author: "William T. Powers",
-        url: "https://en.wikipedia.org/wiki/Perceptual_control_theory",
+        url: "https://www.amazon.com/Perceptual-Control-Theory-Overview-Psychology/dp/1938090128",
       },
     ]),
   },
