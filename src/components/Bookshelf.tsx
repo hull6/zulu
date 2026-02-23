@@ -4,6 +4,68 @@ import { shelves } from "../data/books";
 import Book from "./Book";
 import styles from "./Bookshelf.module.css";
 
+const SCROLL_AMOUNT = 200;
+
+function ShelfSection(props: { shelf: Shelf; onCategoryClick: (shelf: Shelf) => void }) {
+  let shelfRowRef!: HTMLDivElement;
+  const [canScrollLeft, setCanScrollLeft] = createSignal(false);
+  const [canScrollRight, setCanScrollRight] = createSignal(false);
+
+  const updateScrollState = () => {
+    const el = shelfRowRef;
+    if (!el) return;
+    setCanScrollLeft(el.scrollLeft > 0);
+    setCanScrollRight(el.scrollLeft + el.clientWidth < el.scrollWidth - 1);
+  };
+
+  const scrollBy = (dir: number) => {
+    shelfRowRef?.scrollBy({ left: dir * SCROLL_AMOUNT, behavior: "smooth" });
+  };
+
+  onMount(() => {
+    updateScrollState();
+    const observer = new ResizeObserver(updateScrollState);
+    observer.observe(shelfRowRef);
+    onCleanup(() => observer.disconnect());
+  });
+
+  return (
+    <section class={styles.category}>
+      <div
+        class={styles.sectionHeader}
+        onClick={() => props.onCategoryClick(props.shelf)}
+      >
+        <span class={styles.sectionTitle}>{props.shelf.category}</span>
+      </div>
+
+      <div class={styles.shelfWrapper}>
+        <Show when={canScrollLeft()}>
+          <button class={`${styles.scrollArrow} ${styles.scrollArrowLeft}`} onClick={() => scrollBy(-1)}>
+            &#8249;
+          </button>
+        </Show>
+
+        <div class={styles.shelfRow} ref={shelfRowRef} onScroll={updateScrollState}>
+          <div class={styles.shelfInner}>
+            <div class={styles.shelf}>
+              <For each={props.shelf.books}>
+                {(book) => <Book book={book} expanded={false} />}
+              </For>
+            </div>
+            <div class={styles.shelfBoard} />
+          </div>
+        </div>
+
+        <Show when={canScrollRight()}>
+          <button class={`${styles.scrollArrow} ${styles.scrollArrowRight}`} onClick={() => scrollBy(1)}>
+            &#8250;
+          </button>
+        </Show>
+      </div>
+    </section>
+  );
+}
+
 export default function Bookshelf() {
   const [activeShelf, setActiveShelf] = createSignal<Shelf | null>(null);
 
@@ -36,25 +98,7 @@ export default function Bookshelf() {
       <main class={styles.content}>
         <For each={shelves}>
           {(shelf) => (
-            <section class={styles.category}>
-              <div
-                class={styles.sectionHeader}
-                onClick={() => handleCategoryClick(shelf)}
-              >
-                <span class={styles.sectionTitle}>{shelf.category}</span>
-              </div>
-
-              <div class={styles.shelfRow}>
-                <div class={styles.shelfInner}>
-                  <div class={styles.shelf}>
-                    <For each={shelf.books}>
-                      {(book) => <Book book={book} expanded={false} />}
-                    </For>
-                  </div>
-                  <div class={styles.shelfBoard} />
-                </div>
-              </div>
-            </section>
+            <ShelfSection shelf={shelf} onCategoryClick={handleCategoryClick} />
           )}
         </For>
       </main>

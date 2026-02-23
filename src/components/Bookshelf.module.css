@@ -82,6 +82,42 @@
     0 3px 6px rgba(0, 0, 0, 0.15);
 }
 
+.shelfWrapper {
+  position: relative;
+}
+
+.scrollArrow {
+  position: absolute;
+  top: 0;
+  bottom: 8px;
+  width: 2rem;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.5rem;
+  color: var(--text-secondary);
+  background: linear-gradient(to right, var(--bg-primary) 60%, transparent);
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  transition: color 0.15s;
+}
+
+.scrollArrow:hover {
+  color: var(--text-primary);
+}
+
+.scrollArrowLeft {
+  left: 0;
+  background: linear-gradient(to right, var(--bg-primary) 60%, transparent);
+}
+
+.scrollArrowRight {
+  right: 0;
+  background: linear-gradient(to left, var(--bg-primary) 60%, transparent);
+}
+
 .shelfRow {
   overflow-x: auto;
   overflow-y: hidden;

@@ -11,15 +11,15 @@ Deployed on Vercel.
 
 ## Build / Dev Commands
 
-| Command                        | Description                      |
-| ------------------------------ | -------------------------------- |
-| `npm run dev`                  | Start Vite dev server            |
-| `npm run build`                | Production build to `dist/`      |
-| `npm run preview`              | Preview production build locally |
-| `npx tsc --noEmit`             | TypeScript type-check (no output)|
-| `npm run build && npx tsc --noEmit` | **Always run after changes** |
+| Command                              | Description                      |
+| ------------------------------------ | -------------------------------- |
+| `npm run dev`                        | Start Vite dev server            |
+| `npm run build`                      | Production build to `dist/`      |
+| `npm run preview`                    | Preview production build locally |
+| `npx tsc --noEmit`                   | TypeScript type-check (no output)|
+| `npm run build && npx tsc --noEmit`  | **Always run after changes**     |
 
-There is no linter, formatter, or test runner configured.
+There is no linter, formatter, or test runner configured. No single-test command exists.
 
 ## Project Structure
 
@@ -57,14 +57,11 @@ toot/
 - Mount with `render(() => <App />, root)` from `solid-js/web`
 - Lifecycle: `onMount` / `onCleanup` (not useEffect)
 - State: `createSignal` (not useState) — returns `[getter, setter]`
-- JSX import source is `solid-js` (configured in tsconfig)
 
 ## Code Style
 
 ### Formatting
-- 2-space indentation
-- Double quotes for all strings
-- Semicolons always
+- 2-space indentation, double quotes, semicolons always
 - Trailing commas in multi-line arrays, objects, and parameters
 - No comments unless explicitly requested
 
@@ -92,6 +89,7 @@ import styles from "./Bookshelf.module.css";
 - Use explicit type annotations on exported constants: `export const x: T[] = []`
 
 ### Naming
+
 | Thing              | Convention               | Example                    |
 | ------------------ | ------------------------ | -------------------------- |
 | Components         | PascalCase `.tsx`        | `Bookshelf.tsx`            |
@@ -142,22 +140,18 @@ export default function Component(props: ComponentProps) {
 - No preprocessors, no CSS-in-JS, no Tailwind
 
 ### Design Tokens (custom properties on `:root`)
-- `--bg-primary: #faf9f6` / `--bg-secondary: #f2f0eb` / `--bg-card: #fff`
-- `--text-primary: #1a1a1a` / `--text-secondary: #555` / `--text-muted: #888`
-- `--velvet: #8b2232` / `--velvet-dark: #5c1622` / `--velvet-light: #a83245`
-- `--accent: #8b2232` / `--border: #999`
-- `--font-display: "Playfair Display"` (headings, serif)
-- `--font-body: "Inter"` (body, sans-serif)
-- `--shelf-wood: #d4c5a9` / `--shelf-wood-dark: #b8a88a` / `--shelf-shadow: #c4b494`
+- Backgrounds: `--bg-primary: #faf9f6` / `--bg-secondary: #f2f0eb` / `--bg-card: #fff`
+- Text: `--text-primary: #1a1a1a` / `--text-secondary: #555` / `--text-muted: #888`
+- Accent: `--velvet: #8b2232` / `--velvet-dark: #5c1622` / `--velvet-light: #a83245`
+- Fonts: `--font-display: "Playfair Display"` (serif) / `--font-body: "Inter"` (sans)
+- Shelf: `--shelf-wood: #d4c5a9` / `--shelf-wood-dark: #b8a88a` / `--shelf-shadow: #c4b494`
 
 ## Data
 
 Book data lives in `src/data/books.ts` as a `shelves: Shelf[]` array.
-Each shelf has a `category` string and a `books` array.
-
-Cover colors are auto-assigned via a deterministic hash of the title.
-Optional `spineColor` overrides. The `community` flag marks community
-contributions and renders a green badge on the cover.
+Each shelf has a `category` string and a `books` array. Cover colors are
+auto-assigned via a deterministic hash of the title. Optional `spineColor`
+overrides. The `community` flag marks community contributions (green badge).
 
 ```ts
 interface Book {
@@ -185,5 +179,5 @@ interface Shelf {
 
 ## Deployment
 
-Deployed on Vercel. `vercel.json` rewrites all routes to `index.html` for SPA
-support. Build output is `dist/`. Framework preset: Vite.
+Deployed on Vercel. `vercel.json` rewrites all routes to `index.html`.
+Build output: `dist/`. Framework preset: Vite.
