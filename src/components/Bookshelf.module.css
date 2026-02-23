@@ -90,13 +90,16 @@
   scrollbar-color: var(--shelf-wood-dark) transparent;
 }
 
+.shelfInner {
+  width: max-content;
+  min-width: 100%;
+}
+
 .shelf {
   display: flex;
   align-items: flex-end;
   gap: 4px;
   padding: 0 1rem;
-  width: max-content;
-  min-width: 100%;
 }
 
 .shelfBoard {

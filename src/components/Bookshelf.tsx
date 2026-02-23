@@ -45,12 +45,14 @@ export default function Bookshelf() {
               </div>
 
               <div class={styles.shelfRow}>
-                <div class={styles.shelf}>
-                  <For each={shelf.books}>
-                    {(book) => <Book book={book} expanded={false} />}
-                  </For>
+                <div class={styles.shelfInner}>
+                  <div class={styles.shelf}>
+                    <For each={shelf.books}>
+                      {(book) => <Book book={book} expanded={false} />}
+                    </For>
+                  </div>
+                  <div class={styles.shelfBoard} />
                 </div>
-                <div class={styles.shelfBoard} />
               </div>
             </section>
           )}
