@@ -30,9 +30,7 @@ export default function Bookshelf() {
             return (
               <section class={styles.category}>
                 <div class={styles.sectionHeader}>
-                  <span class={styles.sectionLine} />
                   <span class={styles.sectionTitle}>{shelf.category}</span>
-                  <span class={styles.sectionLine} />
                 </div>
 
                 <For each={rows}>
