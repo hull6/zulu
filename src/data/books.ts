@@ -3,6 +3,7 @@ export interface Book {
   author: string;
   url: string;
   spineColor?: string;
+  community?: boolean;
 }
 
 export interface Shelf {
@@ -131,6 +132,12 @@ export const shelves: Shelf[] = [
         title: "The Production of Security",
         author: "Gustave de Molinari",
         url: "https://mises.org/library/production-security-0",
+      },
+      {
+        title: "Argumentation Ethics: A Systematization",
+        author: "catalaxia",
+        url: "https://anarquismo.substack.com/p/argumentation-ethics-a-systematization",
+        community: true,
       },
     ]),
   },

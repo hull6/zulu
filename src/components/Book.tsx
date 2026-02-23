@@ -18,6 +18,7 @@ export default function Book(props: BookProps) {
         <div class={styles.coverEdge} />
         <div class={styles.accentBarTop} />
         <div class={styles.accentBarBottom} />
+        {props.book.community && <span class={styles.communityBadge}>Community</span>}
         <span class={styles.title}>{props.book.title}</span>
         <span class={styles.coverAuthor}>{props.book.author}</span>
       </div>
